@@ -13,21 +13,21 @@ class Hero:
 
     def __gt__(self, other):
         if self.intellect > other.intellect:
-            return True
+            return f'{self.name} is more intelligent than {other.name}'
 
     def __lt__(self, other):
         if self.intellect < other.intellect:
-            return False
+            return f'{self.name} is less intelligent than {other.name}'
 
     def __eq__(self, other):
         if self.intellect == other.intellect:
-            return True
+            return f'{self.name} and {other.name} are equal by intelligence'
 
     def __str__(self):
         return self.name
 
     def show_hero_js(self):
-        pprint (self.hero_js)
+        pprint(self.hero_js)
 
     def show_hero_id(self):
         hero_id = self.hero_js['results'][0]['id']
@@ -35,7 +35,7 @@ class Hero:
 
 
 def find_smartest(given_heroes):
-    smartest= ''
+    smartest = ''
     heroes = []
     points = 0
     for hero in given_heroes:
@@ -44,8 +44,8 @@ def find_smartest(given_heroes):
         else:
             return f'{hero.name} is not Hero type'
     for hero in heroes:
-        if int(hero.hero_js['results'][0]['powerstats']['intelligence']) >= points:
-            points = int(hero.hero_js['results'][0]['powerstats']['intelligence'])
+        if hero.intellect >= points:
+            points = hero.intellect
             smartest = hero.name
     if smartest is not False:
         return f'The most intelligence hero is {smartest} - {points} points'
@@ -53,26 +53,39 @@ def find_smartest(given_heroes):
 
 def rate_heroes_by_intellect(heroes):
     place = 1
+    summoned_heroes = []
+    for hero in heroes:
+        if isinstance(hero, Hero):
+            summoned_heroes.append(hero)
+        elif isinstance(hero, list):
+            for character in hero:
+                if isinstance(character, Hero):
+                    summoned_heroes.append(character)
     print('\t Heroes by intelligence:'.upper())
-    for hero in sorted(heroes, key=lambda supe: supe.intellect, reverse=True ):
+    print(len(summoned_heroes))
+    for hero in sorted(summoned_heroes, key=lambda i: i.intellect, reverse=True):
         print(f'{place}.{hero.name} - {hero.intellect} points')
         place += 1
 
 
-Hulk = Hero('Hulk')
-harry = Hero('Harry Potter')
-Thanos = Hero('Thanos')
-Captain = Hero('Captain America')
-my_heroes = [Hulk, Thanos, Captain, harry]
+def launch_heroes():
+    Hulk = Hero('Hulk')
+    Harry = Hero('Harry Potter')
+    Thanos = Hero('Thanos')
+    Captain = Hero('Captain America')
+    Venom = Hero('Venom')
+    Batman = Hero('Batman')
+    Sauron = Hero('Sauron')
+    Yoda = Hero('Yoda')
+    Naruto = Hero('Naruto Uzumaki')
+    Strange = Hero('Doctor Strange')
+    Octopus = Hero('Doctor Octopus')
+    my_heroes = [Hulk, Thanos, Captain, Harry, Venom, Batman, Sauron, Yoda, Naruto]
+    others = (Strange, Octopus)
+    AntMan = Hero('Ant-Man')
+    print(find_smartest(my_heroes))
+    rate_heroes_by_intellect([my_heroes, others, AntMan])
 
-print(find_smartest(my_heroes))
-rate_heroes_by_intellect(my_heroes)
 
-
-
-
-
-# if __name__ == '__main__':
-#     print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if __name__ == '__main__':
+    launch_heroes()
