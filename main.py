@@ -62,8 +62,7 @@ def rate_heroes_by_intellect(heroes):
                 if isinstance(character, Hero):
                     summoned_heroes.append(character)
     print('\t Heroes by intelligence:'.upper())
-    print(len(summoned_heroes))
-    for hero in sorted(summoned_heroes, key=lambda i: i.intellect, reverse=True):
+    for hero in sorted(summoned_heroes, key=lambda x: x.intellect, reverse=True):
         print(f'{place}.{hero.name} - {hero.intellect} points')
         place += 1
 
