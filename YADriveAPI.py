@@ -1,10 +1,9 @@
 import requests
-from pprint import pprint
 
-Token = 'AQAAAAA6yPHbAADLWyR9_imZMk2rtk6TUiscs0M'
+Token = 'AQ...'
 
 
-class YandexDisk:
+class YaUploader:
     def __init__(self, token):
         self.token = token
 
@@ -25,14 +24,13 @@ class YandexDisk:
         headers = self.get_headers()
         params = {'path': disk_file_path, 'overwrite': True}
         response = requests.get(url=upload_url, params=params, headers=headers)
-        pprint(response.json())
+        # pprint(response.json())
         return response.json()
 
     def upload_file_to_drive(self, disk_file_path, filename):
         response = self.get_upload_link(disk_file_path=disk_file_path)
         url = response.get('href', '')
         response = requests.put(url=url, data=open(filename, 'rb'))
+        return response.status_code
 
 
-ya = YandexDisk(token=Token)
-ya.upload_file_to_drive('Education/type.txt', 'typ.txt')
